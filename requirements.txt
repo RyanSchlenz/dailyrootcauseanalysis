@@ -84,3 +84,4 @@ urllib3==2.2.3
 XlsxWriter==3.2.0
 flask
 azure-functions
+gunicorn
