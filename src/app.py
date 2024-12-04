@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import threading
 import os
 import asyncio
-from main import run_script  # Import run_script which will perform SharePoint and Excel update
+from .main import run_script
 
 app = Flask(__name__)
 
