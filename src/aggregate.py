@@ -5,7 +5,7 @@ import io
 
 # Path configuration
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from HttpTrigger1.project_config import config
+from src.project_config import config
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 

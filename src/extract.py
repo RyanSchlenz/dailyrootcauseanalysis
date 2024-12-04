@@ -9,8 +9,8 @@ import os
 # Add the parent directory to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from HttpTrigger1.project_config import config
-from HttpTrigger1.project_config import zendesk_email, zendesk_subdomain, product_service_desk_tool_id, action_taken_id, zendesk_api_token 
+from src.project_config import config
+from src.project_config import zendesk_email, zendesk_subdomain, product_service_desk_tool_id, action_taken_id, zendesk_api_token 
 
 # Get Zendesk API token from environment variable (Assuming it's set in the Azure environment)
 api_token = zendesk_api_token

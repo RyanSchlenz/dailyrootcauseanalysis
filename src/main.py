@@ -3,7 +3,7 @@ import asyncio
 import logging
 import sys
 import io
-from HttpTrigger1.project_config import config  # Ensure `project_config.py` exists in the same directory
+from src.project_config import config  # Ensure `project_config.py` exists in the same directory
 
 # Set up UTF-8 for stdout
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')

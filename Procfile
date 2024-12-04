@@ -1,1 +1,1 @@
-web: gunicorn HttpTrigger1.app:app
+web: gunicorn src.app:app

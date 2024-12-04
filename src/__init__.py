@@ -4,7 +4,7 @@ import time
 import logging
 import datetime
 import azure.functions as func
-from HttpTrigger1.project_config import config  # Note the dot before 
+from src.project_config import config  # Note the dot before 
 
 
 logger = logging.getLogger(__name__)
