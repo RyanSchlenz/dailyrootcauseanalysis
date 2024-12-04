@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sync Application</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #loadingBarContainer {
+            margin: 30px 0;
+            height: 30px;
+            background-color: #ecf0f1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #loadingBar {
+            width: 0%;
+            height: 100%;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 15px;
+            font-weight: bold;
+            transition: width 0.3s ease;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #2ecc71;
+        }
+
+        .error {
+            color: #e74c3c;
+        }
+
+        .loading {
+            color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sync Equipment Program</h1>
+        <p>Click the button below to sync data with Smartsheet and Zendesk. Please wait while the sync process completes.</p>
+        <form id="syncForm">
+            <button type="submit">Start Sync</button>
+        </form>
+        <div id="loadingBarContainer">
+            <div id="loadingBar">0%</div>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById("syncForm");
+        const result = document.getElementById("result");
+        const loadingBar = document.getElementById("loadingBar");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            result.textContent = "Syncing... This may take a few minutes.";
+            result.className = "loading"; // Add a loading class for the text color
+
+            // Simulate the loading bar progression
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                } else {
+                    progress += 5; // Adjust the increment to control the speed
+                    loadingBar.style.width = `${progress}%`;
+                    loadingBar.textContent = `${progress}%`;
+                }
+            }, 500); // Adjust the interval for faster/slower progress
+
+            try {
+                // Update the fetch URL to your Azure Function's endpoint
+                const response = await fetch("https://your-function-app.azurewebsites.net/api/your-function-endpoint", { 
+                    method: "POST" 
+                });
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    result.className = "success";
+                    result.innerHTML = `
+                        <p>${data.message}</p>
+                        <p>Sync Started!</p>
+                    `;
+                    checkSyncStatus(); // Start checking the sync status
+                } else {
+                    result.className = "error";
+                    result.textContent = `Error: ${data.message}`;
+                }
+            } catch (error) {
+                result.className = "error";
+                result.textContent = "An error occurred during the sync process. Please try again.";
+            }
+        });
+
+        function checkSyncStatus() {
+            const interval = setInterval(async () => {
+                const statusResponse = await fetch("/status");
+                const statusData = await statusResponse.json();
+                const status = statusData.status;
+
+                if (status === "Sync complete.") {
+                    clearInterval(interval);
+                    result.className = "success";
+                    result.innerHTML = `<p>Sync completed successfully!</p>`;
+                } else if (status === "Sync failed after multiple attempts.") {
+                    clearInterval(interval);
+                    result.className = "error";
+                    result.textContent = "Sync failed. Please check the system.";
+                }
+            }, 10000); // Check every 10 seconds
+        }
+    </script>
+</body>
+</html>

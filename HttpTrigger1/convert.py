@@ -6,16 +6,13 @@ import io
 # Adjust the module search path to include the parent directory
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from project_config import tmp_dir
+from HttpTrigger1.project_config import config
 
 # Set the standard output to use utf-8 encoding
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# Print the temporary directory for debugging
-print(f"Temporary directory is set to: {tmp_dir}")
-
 # List of CSV files to convert, stored in the temporary directory
-csv_files = [f'{tmp_dir}/aggregated_data.csv', f'{tmp_dir}/detailed_analysis.csv']
+csv_files = ['aggregated_data.csv', 'detailed_analysis.csv']
 
 # Print the current working directory for debugging
 print(f"Current Working Directory: {os.getcwd()}")
@@ -29,7 +26,7 @@ for csv_file in csv_files:
     if os.path.exists(csv_file):
         # Extract the base name (without extension) for naming the output file
         base_name = os.path.splitext(os.path.basename(csv_file))[0]
-        xlsx_file = f'{tmp_dir}/{base_name}.xlsx'  # Define the output Excel file path in tmp_dir
+        xlsx_file = f'{base_name}.xlsx'  # Define the output Excel file path in tmp_dir
         
         # Print the output Excel file path for debugging
         print(f"Output Excel file will be saved to: {xlsx_file}")  # Debugging print

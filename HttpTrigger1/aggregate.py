@@ -5,14 +5,14 @@ import io
 
 # Path configuration
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from project_config import tmp_dir
+from HttpTrigger1.project_config import config
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # Define paths for input and output CSV files
-input_csv_file_path = f'{tmp_dir}/mapped_filtered_subjects.csv'
-output_csv_file_path = f'{tmp_dir}/aggregated_data.csv'
-detailed_analysis_csv_file_path = f'{tmp_dir}/detailed_analysis.csv'
+input_csv_file_path = 'mapped_filtered_subjects.csv'
+output_csv_file_path = 'aggregated_data.csv'
+detailed_analysis_csv_file_path = 'detailed_analysis.csv'
 
 # Load the CSV file into a DataFrame
 df = pd.read_csv(input_csv_file_path)

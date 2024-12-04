@@ -129,7 +129,7 @@ def sync_and_update_excel():
     ticket_counts = daily_tracker.groupby(['Date', 'Product - Service Desk Tool'], as_index=False)['Ticket Count'].sum()
     existing_dates = set(ticket_counts['Date'].unique())
 
-    aggregated_data = pd.read_excel("/tmp/aggregated_data.xlsx", header=0).dropna(how='all')
+    aggregated_data = pd.read_excel("aggregated_data.xlsx", header=0).dropna(how='all')
     aggregated_data.columns = aggregated_data.columns.str.strip()
     aggregated_data['Ticket Count'] = pd.to_numeric(aggregated_data['Ticket Count'], errors='coerce').fillna(0)
     aggregated_data['Date'] = pd.to_datetime(aggregated_data['Date'], errors='coerce').dt.strftime('%m/%d/%Y')
@@ -147,8 +147,8 @@ def sync_and_update_excel():
         detailed_tracker['Ticket Count'] = pd.to_numeric(detailed_tracker['Ticket Count'], errors='coerce').fillna(0)
         detailed_tracker['Date'] = pd.to_datetime(detailed_tracker['Date'], errors='coerce').dt.strftime('%m/%d/%Y')
 
-    if os.path.exists("/tmp/detailed_analysis.xlsx"):
-        detailed_analysis = pd.read_excel("/tmp/detailed_analysis.xlsx", header=0)
+    if os.path.exists("detailed_analysis.xlsx"):
+        detailed_analysis = pd.read_excel("detailed_analysis.xlsx", header=0)
         detailed_analysis.columns = detailed_analysis.columns.str.strip()
         detailed_analysis['Ticket Count'] = pd.to_numeric(detailed_analysis['Ticket Count'], errors='coerce').fillna(0)
         detailed_analysis['Date'] = pd.to_datetime(detailed_analysis['Date'], errors='coerce').dt.strftime('%m/%d/%Y')

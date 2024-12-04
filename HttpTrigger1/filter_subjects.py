@@ -7,15 +7,15 @@ import os
 # Adjust the module search path to include the parent directory
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from project_config import tmp_dir
+from HttpTrigger1.project_config import config
 
 # Set the standard output to use utf-8 encoding
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def main():
     # Access the paths from the project_config
-    input_csv_file_path = f'{tmp_dir}/filtered_groups.csv'  # Adjusted for temp storage
-    output_csv_file_path = f'{tmp_dir}/filtered_subjects.csv' 
+    input_csv_file_path = 'filtered_groups.csv'  # Adjusted for temp storage
+    output_csv_file_path = 'filtered_subjects.csv' 
 
 
     # Define keyword rules for specific Subject Groups using regex

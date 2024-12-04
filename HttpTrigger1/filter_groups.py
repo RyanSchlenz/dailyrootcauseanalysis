@@ -6,15 +6,15 @@ import os
 # Add the parent directory to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from project_config import tmp_dir
+from HttpTrigger1.project_config import config
 
 # Set the standard output to use utf-8 encoding
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def main():
     # Define the paths for the input and output CSV files in the temporary storage
-    input_csv_file_path = f'{tmp_dir}/extracted_data.csv'  # Adjusted for temp storage
-    output_csv_file_path = f'{tmp_dir}/filtered_groups.csv'  # Adjusted for temp storage
+    input_csv_file_path = 'extracted_data.csv'  # Adjusted for temp storage
+    output_csv_file_path = 'filtered_groups.csv'  # Adjusted for temp storage
 
     # Load the CSV file into a DataFrame, ensuring the 'Ticket created - Year' column is included
     df = pd.read_csv(input_csv_file_path)

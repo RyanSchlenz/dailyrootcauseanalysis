@@ -7,7 +7,7 @@ import os
 # Adjust the module search path to include the parent directory
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from project_config import tmp_dir
+from HttpTrigger1.project_config import config
 
 # Set the standard output to use utf-8 encoding
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -160,13 +160,13 @@ mapping_df = pd.read_csv(StringIO(csv_data))
 mapping_dict = dict(zip(mapping_df['tag'], mapping_df['value']))
 
 # Read the filtered_subjects.csv into a DataFrame (update with your actual file path)
-filtered_subjects_df = pd.read_csv(f'{tmp_dir}/filtered_subjects.csv')
+filtered_subjects_df = pd.read_csv('filtered_subjects.csv')
 
 # Replace the 'Product - Service Desk Tool' column with mapped values only if they exist in the mapping_dict
 filtered_subjects_df['Product - Service Desk Tool'] = filtered_subjects_df['Product - Service Desk Tool'].replace(mapping_dict)
 
 # Save the updated DataFrame to a new CSV file
-mapped_filtered_subjects_path = f'{tmp_dir}/mapped_filtered_subjects.csv'
+mapped_filtered_subjects_path = 'mapped_filtered_subjects.csv'
 print(f"Saving file to: {mapped_filtered_subjects_path}")
 filtered_subjects_df.to_csv(mapped_filtered_subjects_path, index=False)
 
