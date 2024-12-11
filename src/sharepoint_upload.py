@@ -41,17 +41,8 @@ def authenticate_to_graph():
 
     result = app.acquire_token_for_client(scopes=["https://graph.microsoft.com/.default"])
 
-    # Simulate a response object to add CORS headers for your client
-    cors_headers = {
-        "Access-Control-Allow-Origin": "*",  # Replace '*' with specific domain(s) for production
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    }
-
     if "access_token" in result:
         logging.info("Access token acquired successfully.")
-        # Log the CORS headers for debugging
-        logging.info(f"CORS Headers: {cors_headers}")
         return result['access_token']
     else:
         logging.error("Error acquiring token: %s", result.get("error_description"))
@@ -63,22 +54,14 @@ def load_dataframe_from_sharepoint(ctx, folder_relative_path, target_file_name):
     logging.info(f"Attempting to access file at path: {file_url}")
 
     try:
-        # Send the CORS headers explicitly for this request
-        cors_headers = {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        }
-
-        # Attempt to retrieve the file
         response = File.open_binary(ctx, file_url)
-        logging.info(f"File fetched successfully with headers: {cors_headers}")
         df_dict = pd.read_excel(io.BytesIO(response.content), sheet_name=None)
-
+        
         # Validate data presence in file
         if not df_dict or all(df.empty for df in df_dict.values()):
             raise FileNotFoundError(f"File '{target_file_name}' is empty or could not be found.")
         
+        logging.info(f"Loaded data from {target_file_name} successfully.")
         return df_dict
 
     except requests.exceptions.HTTPError as e:
